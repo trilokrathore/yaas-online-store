@@ -1,7 +1,6 @@
 <!-- bread crumbs -->
 <ybreadcrumb yitem="breadcrumbData" size="'small'"></ybreadcrumb>
 
-
 <div class="productDetailsContainer" ng-cloak>
     <section class="white">
         <div class="row">
@@ -87,7 +86,7 @@
 
                                 <!-- shipping rates -->
                                  <div class="col-md-8 col-md-offset-2 shipping-rate" ng-if="!noShippingRates">
-                            <a id="p_{{product.id}}" ng-click="openPickupStoresDetails(product.id)" ui-sref="base.pickupstores( {productId: product.id, lastCatId: lastCatId} )">PickUp Stores</a>
+                                    <a href=""><span ng-click="showPickupStores()">PickUp Stores</span></a>
                                 </div>
                                 <div class="col-md-8 col-md-offset-2 shipping-rate" ng-if="!noShippingRates">
                                     <a href=""><span ng-click="showShippingRates()">Shipping Rates</span></a>

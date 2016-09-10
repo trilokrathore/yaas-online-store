@@ -43,7 +43,8 @@ window.app = angular.module('ds.app', [
     'ds.localstorage',
     'ds.appconfig',
     'ds.searchlist',
-    'ds.ysearch'
+    'ds.ysearch',
+    'ds.pickupstores'
 ])
     .constant('_', window._)
 

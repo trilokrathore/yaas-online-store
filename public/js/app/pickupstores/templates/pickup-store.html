@@ -1,0 +1,27 @@
+
+
+<div class="modal-header shippingZoneModalHeader" ng-cloak>
+  <button type="button" class="close" ng-click="closeShippingZonesDialog()" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">{{'CLOSE' | translate}}</span></button>
+  <h4 class="modal-title" id="myModalLabel">{{'PickUp_INFORMATION' | translate}}</h4>
+</div>
+
+<div>
+    <div id="map" style="width:500px;height:380px;">
+    
+    </div>
+   <!-- <div id="map1">
+      <ng-map center="41,-87" zoom="3"></ng-map>
+    </div> -->
+    <div id="class" ng-repeat="marker in markers | orderBy : 'title'">
+         <a href="#" ng-click="openInfoWindow($event, marker)">{{marker.title}}</a>
+    </div>
+</div>
+
+
+
+<script src="js/vendor-static/jquery.min.js"></script>
+<script src="js/vendor-static/bootstrap.min.js"></script>
+<script src="js/vendor-static/owl.carousel.js"></script>
+<script src="js/vendor-static/img-touch-canvas.js"></script>
+<script src="js/vendor-static/jquery.fullscreen-min.js"></script>
+<script src="js/vendor-static/main.js"></script>

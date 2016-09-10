@@ -12,16 +12,30 @@
 
 'use strict';
 
-angular.module('ds.products')
+angular.module('ds.pickupstores')
     /** Controls the product detail view, which allows the shopper to add an item to the cart.
      * Listens to the 'cart:updated' event.  Once the item has been added to the cart, and the updated
      * cart information has been retrieved from the service, the 'cart' view will be shown.
      */
-    .controller('ProductDetailCtrl', ['$scope', '$rootScope', 'CartSvc','product', 'lastCatId', 'GlobalData', 'CategorySvc','$filter', '$modal', 'shippingZones', 'Notification', 'ProductExtensionHelper', 'variants', 'variantPrices', 'productFactory',
-        function($scope, $rootScope, CartSvc, product, lastCatId, GlobalData, CategorySvc, $filter, $modal, shippingZones, Notification, ProductExtensionHelper, variants, variantPrices, productFactory) {
+    .controller('PickupStoresCtrl', ['$scope', '$rootScope', 'CartSvc','PickupStoresSvc' ,'product', 'lastCatId', 'GlobalData', 'CategorySvc','$filter', '$modal', 'shippingZones', 'Notification', 'ProductExtensionHelper', 'variants', 'variantPrices', 'productFactory',
+        function($scope, $rootScope, CartSvc,PickupStoresSvc, product, lastCatId, GlobalData, CategorySvc, $filter, $modal, shippingZones, Notification, ProductExtensionHelper, variants, variantPrices, productFactory) {
             
+            console.info("Get all store information");
+            
+            $scope.pickststores=PickupStoresSvc.queryPickupStoresList("test");
+            console.info("Finish getting all store inforamtion");
+            
+            console.info("Coming to pickup store controller.");
             var modalInstance;
-                        
+            //Starts code
+            var mapOptions = {
+                   zoom: 4,
+                  center: new google.maps.LatLng(0, 0),
+                  mapTypeId: google.maps.MapTypeId.TERRAIN
+                            };
+            console.info(document.getElementById('map'));
+            var map = new google.maps.Map(document.getElementById('map'), mapOptions);           
+            //Code ends
             $scope.activeTab = 'description';
             $scope.openTab = function (tabName) {
                 $scope.activeTab = tabName;

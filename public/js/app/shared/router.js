@@ -188,6 +188,80 @@ angular.module('ds.router', [])
                         }]
 
                     }
+                }).state('base.pickupstores', {
+                    url: '/pickupstores/:productId/',
+                    params: {
+                        lastCatId: 'lastCatId'
+                    },
+                    views: {
+                        'main@': {
+                            templateUrl: 'js/app/pickupstores/templates/pickup-store.html',
+                            controller: 'PickupStoresCtrl'
+                        }
+                    },
+                    resolve: {
+                        product: ['$stateParams', 'PriceProductREST', 'CategorySvc', 'initialized', function ($stateParams, PriceProductREST, CategorySvc, initialized) {
+                            if(initialized){
+                                return PriceProductREST.ProductDetails.one('productdetails', $stateParams.productId).customGET('', {expand: 'media'})
+                                    .then(function (prod) {
+                                        if(prod.categories && prod.categories.length){
+                                            return CategorySvc.getCategoryById(prod.categories[0].id).then(function(category){
+                                                prod.richCategory = category;
+                                                return prod;
+                                            });
+
+                                        } else {
+                                            return prod;
+                                        }
+                                    });
+                            }
+
+                        }],
+                        
+                        variants: ['$stateParams', 'initialized', '$http', 'SiteConfigSvc',
+                            function ($stateParams, initialized, $http, SiteConfigSvc) {
+                                if (initialized) {
+                                    // $http used since 'option' property in response body is not handled correctly by Restangular
+                                    return $http.get(SiteConfigSvc.apis.products.baseUrl + '/products/' + $stateParams.productId + '/variants', {
+                                        params: {
+                                            pageNumber: 1, pageSize: 9999
+                                        }
+                                    }).then(function (response) {
+                                        return response.data;
+                                    });
+                                }
+                            }],
+
+                        variantPrices: ['$stateParams', 'initialized', '$http', 'SiteConfigSvc', 'GlobalData',
+                            function ($stateParams, initialized, $http, SiteConfigSvc, GlobalData) {
+                                if (initialized) {
+                                    return $http.get(SiteConfigSvc.apis.prices.baseUrl + '/prices', {
+                                        params: {
+                                            group: $stateParams.productId,
+                                            currency: GlobalData.getCurrencyId()
+                                        }
+                                    }).then(function (response) {
+                                        return response.data;
+                                    });
+                                }
+                            }],
+
+                        lastCatId: function ($stateParams) {
+                            if($stateParams.lastCatId !== 'lastCatId') {
+                                return $stateParams.lastCatId;
+                            }
+                            else{
+                                return null;
+                            }
+                        },
+
+                        shippingZones: ['ShippingSvc', 'initialized', function (ShippingSvc, initialized) {
+                            if(initialized){
+                                return ShippingSvc.getSiteShippingZones();
+                            }
+                        }]
+
+                    }
                 })
                 .state('base.checkout', {
                     abstract: true,

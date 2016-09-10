@@ -98,7 +98,11 @@ angular.module('ds.shared')
 
                 indexing: {
                     baseUrl: 'https://' + apiPath + '/hybris/search-algolia/v1/' + tenantId
+                },
+                pickupstores: {
+                    baseUrl: 'http://localhost:8080/'
                 }
+
             };
 
             this.schemas = {
