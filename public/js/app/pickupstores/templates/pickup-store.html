@@ -1,14 +1,58 @@
-
-
+ 
+<!--
 <div class="modal-header shippingZoneModalHeader" ng-cloak>
   <button type="button" class="close" ng-click="closeShippingZonesDialog()" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">{{'CLOSE' | translate}}</span></button>
   <h4 class="modal-title" id="myModalLabel">{{'PickUp_INFORMATION' | translate}}</h4>
+</div>-->
+<style>
+.home-googleMap {
+		width: 96%;
+		margin-left: auto;
+	    margin-right: auto;
+		height:450px;
+		text-align: center;
+	  }
+
+</style>
+<div class="container-fluid">
+    <div class="raw">
+        <div class="page-header">
+                 <h1 id="header">PickupStore ({{pickstores.length}})</h1>
+        </div>
+    </div>
+    <div class="raw">
+        <div class="col-sm-6">
+                     <div class="panel panel-default">
+                         <hr>
+                         {{selectedPerson}}
+                         <!-- List group -->
+                         <ul class="list-group" >
+                             <li class="list-group-item" ng-repeat="pickstore in pickstores">
+                                 <label>
+                                      <input type="radio" ng-model="$parent.selectedPerson" name="tile" value="{{pickstore.title}}" required />
+                                      {{pickstore.title}}
+                                 </label>
+<!--
+                                 <h3 class="ng-binding list-group-item-heading">
+                                     {{pickstore.title}}
+                                     <small>(id : {{pickstore.id}})</small>
+                                 </h3>
+-->
+                                  
+                                 <h3>{{pickstore.description}}</h3>
+                             </li>
+                         </ul>
+                     </div>
+     </div>
+    <div class="col-sm-6">
+           <div id="map" class="home-googleMap">
+    
+          </div>
+    </div>
 </div>
 
 <div>
-    <div id="map" style="width:500px;height:380px;">
-    
-    </div>
+   
    <!-- <div id="map1">
       <ng-map center="41,-87" zoom="3"></ng-map>
     </div> -->
@@ -17,6 +61,37 @@
     </div>
 </div>
 
+<!--
+<div class="wrapper">
+     <div class="container-fluid" style="margin-left:10px;">
+         <div class="row" >
+             <div class="page-header">
+                 <h1 id="header">PickupStore ({{pickstores.length}})</h1>
+             </div>
+             <div class="row">
+                 <div class="col-sm-12">
+                     <div class="panel panel-default">
+                          List group 
+                         <ul class="list-group" >
+                             <li class="list-group-item" ng-repeat="pickstore in pickstores">
+                                 <span class="badge">{{pickstore.createdAt | date : "mediumDate"}}</span>
+                                 <h1>{{pickstore}}</h1>
+                                 <h2 class="ng-binding list-group-item-heading">
+                                     {{pickstore.title}}
+                                     <small>(id : {{pickstore.id}})</small>
+                                 </h2>
+                                 <h3>{{pickstore.description}}</h3>
+                                 <small>(Items : {{items.length}})</small>
+                                 <p>Owner : {{pickstore.owner}}</p>
+                             </li>
+                         </ul>
+                     </div>
+                 </div>
+             </div>
+         </div>
+     </div>
+ </div>
+-->
 
 
 <script src="js/vendor-static/jquery.min.js"></script>

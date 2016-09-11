@@ -100,7 +100,7 @@ angular.module('ds.shared')
                     baseUrl: 'https://' + apiPath + '/hybris/search-algolia/v1/' + tenantId
                 },
                 pickupstores: {
-                    baseUrl: 'http://localhost:8080/'
+                    baseUrl: 'https://'+'api.stage.yaas.io'+'/cmryaasteam/pickupstore/v1'
                 }
 
             };

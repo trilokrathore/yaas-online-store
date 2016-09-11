@@ -17,24 +17,73 @@ angular.module('ds.pickupstores')
      * Listens to the 'cart:updated' event.  Once the item has been added to the cart, and the updated
      * cart information has been retrieved from the service, the 'cart' view will be shown.
      */
-    .controller('PickupStoresCtrl', ['$scope', '$rootScope', 'CartSvc','PickupStoresSvc' ,'product', 'lastCatId', 'GlobalData', 'CategorySvc','$filter', '$modal', 'shippingZones', 'Notification', 'ProductExtensionHelper', 'variants', 'variantPrices', 'productFactory',
-        function($scope, $rootScope, CartSvc,PickupStoresSvc, product, lastCatId, GlobalData, CategorySvc, $filter, $modal, shippingZones, Notification, ProductExtensionHelper, variants, variantPrices, productFactory) {
-            
-            console.info("Get all store information");
-            
-            $scope.pickststores=PickupStoresSvc.queryPickupStoresList("test");
-            console.info("Finish getting all store inforamtion");
-            
-            console.info("Coming to pickup store controller.");
-            var modalInstance;
-            //Starts code
+    .controller('PickupStoresCtrl', ['$scope', '$rootScope', 'CartSvc','PickupStoresSvc' ,'product', 'lastCatId', 'GlobalData', 'CategorySvc','$filter', '$modal', 'shippingZones', 'Notification', 'ProductExtensionHelper', 'variants', 'variantPrices', 'productFactory','Restangular',
+        function($scope, $rootScope, CartSvc,PickupStoresSvc, product, lastCatId, GlobalData, CategorySvc, $filter, $modal, shippingZones, Notification, ProductExtensionHelper, variants, variantPrices, productFactory,Restangular) {
+             $scope.lat='75.0';
+             $scope.lng='80.0';
+             //Starts code
             var mapOptions = {
-                   zoom: 4,
-                  center: new google.maps.LatLng(0, 0),
+                   zoom: 10,
+                  center: new google.maps.LatLng($scope.lat, $scope.lng),
                   mapTypeId: google.maps.MapTypeId.TERRAIN
                             };
             console.info(document.getElementById('map'));
-            var map = new google.maps.Map(document.getElementById('map'), mapOptions);           
+            var map = new google.maps.Map(document.getElementById('map'), mapOptions);  
+            var infoWindow = new google.maps.InfoWindow({map: map});
+         
+        if (navigator.geolocation) {
+              console.info("Just to test");
+             navigator.geolocation.getCurrentPosition(function(position) {
+             var pos = {
+              lat: position.coords.latitude,
+              lng: position.coords.longitude
+            };
+            
+            $scope.lat=pos.lat;
+            $scope.lng=pos.lng;     
+            infoWindow.setPosition(pos);
+            infoWindow.setContent('Your Location ::'+$scope.pickstores[0].id);
+            console.info("Just to test||||||||||");
+            map.setCenter(pos);
+          }, function() {
+            handleLocationError(true, infoWindow);
+          });
+        } else {
+          // Browser doesn't support Geolocation
+          handleLocationError(false, infoWindow);
+        }
+        
+            function handleLocationError(isError, infoWindow){
+                if(isError){
+                     infoWindow.setContent('We could not get your current location. Try again');
+                }else{
+                    infoWindow.setContent('Please allow our site to know your location.');
+                }
+            };
+            
+         console.info('Get all store information');
+        //Get data from YAAS and show to user.
+        PickupStoresSvc.queryPickupStoresList('test').then(function (response) { 
+            console.log(response);
+            $scope.pickstores = Restangular.stripRestangular(response);
+                console.info($scope.pickstores);
+               
+               var locationsArr=$scope.pickstores;
+               for (var i=0; i<locationsArr.length; i++){
+                   console.info(locationsArr[i].id);
+                 }
+            });
+            
+            console.info('Finish getting all store inforamtion');
+            var modalInstance;
+            
+            $scope.showMapWithMarkers= function(pickstores){
+           
+            }
+        
+            
+            //My Code ende here
+            ///////////////////////////////////////////////
             //Code ends
             $scope.activeTab = 'description';
             $scope.openTab = function (tabName) {
