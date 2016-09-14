@@ -16,37 +16,34 @@
 </style>
 <div class="container-fluid">
     <div class="raw">
-        <div class="page-header">
-                 <h1 id="header">PickupStore ({{pickstores.length}})</h1>
+        <div class="col-sm-6">
+          <h2 id="header">PickupStore :</h2>
         </div>
+        
+        <div class="col-sm-6">
+            <h2 id="header">Product :{{product.name}}<</h2>
+        </div>
+
     </div>
     <div class="raw">
         <div class="col-sm-6">
                      <div class="panel panel-default">
                          <hr>
-                         {{selectedPerson}}
+                         {{selectedStore}}
                          <!-- List group -->
                          <ul class="list-group" >
                              <li class="list-group-item" ng-repeat="pickstore in pickstores">
                                  <label>
-                                      <input type="radio" ng-model="$parent.selectedPerson" name="tile" value="{{pickstore.title}}" required />
-                                      {{pickstore.title}}
+                                      <input type="radio" ng-model="$parent.selectedPickupStore" name="id" value="{{pickstore.id}}" ng-click="getPickStoreID()" />
+                                    {{$index + 1}}.  {{pickstore.id}} ,{{pickstore.name}}
                                  </label>
-<!--
-                                 <h3 class="ng-binding list-group-item-heading">
-                                     {{pickstore.title}}
-                                     <small>(id : {{pickstore.id}})</small>
-                                 </h3>
--->
-                                  
-                                 <h3>{{pickstore.description}}</h3>
+                                 
                              </li>
                          </ul>
                      </div>
      </div>
     <div class="col-sm-6">
            <div id="map" class="home-googleMap">
-    
           </div>
     </div>
 </div>

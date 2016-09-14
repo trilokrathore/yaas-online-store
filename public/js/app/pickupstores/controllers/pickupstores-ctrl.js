@@ -69,9 +69,29 @@ angular.module('ds.pickupstores')
                 console.info($scope.pickstores);
                
                var locationsArr=$scope.pickstores;
+               var markers = new Array();
+               //To create bounds.
+		       var bounds = new google.maps.LatLngBounds();
                for (var i=0; i<locationsArr.length; i++){
                    console.info(locationsArr[i].id);
+                   var marker="";
+                   //Add markers
+                   if(locationsArr[i].latitude){
+                       console.info('Inside');
+                      marker=new google.maps.Marker({
+	 		             position: new google.maps.LatLng(locationsArr[i].latitude,locationsArr[i].longitude),
+                         label: ++i+""
+		                 });
+                     markers.push(marker);
+                     
+                    //Added bounds.
+			         bounds.extend(marker.position);
+                   }
+                   
+                  marker.setMap(map);
                  }
+            map.fitBounds(bounds);
+             
             });
             
             console.info('Finish getting all store inforamtion');
@@ -79,6 +99,12 @@ angular.module('ds.pickupstores')
             
             $scope.showMapWithMarkers= function(pickstores){
            
+            }
+            
+            
+            $scope.getPickStoreID= function(){
+                
+                $scope.selectedStore=$scope.selectedPickupStore;
             }
         
             
