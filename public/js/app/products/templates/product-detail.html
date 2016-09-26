@@ -79,16 +79,27 @@
 
                                 <!-- add to cart -->
                                 <div class="col-md-8 col-md-offset-2">
+                                    <button id="buy-button" class="btn btn-primary btn-block buyButton" ng-click="openPickupStoresDetails(product.id)"
+                                        ng-disabled="!buyButtonEnabled"
+                                         ui-sref="base.pickupstores( {productId: product.id, lastCatId: lastCatId} )"    
+                                            >{{'Pick From Store' | translate}}</button>
+                                
+                               
+                                </div>
+                                <div class="col-md-8 col-md-offset-2">
                                     <button id="buy-button" class="btn btn-primary btn-block buyButton" ng-click="addToCartFromDetailPage()"
-                                        ng-disabled="!buyButtonEnabled">{{'ADD_TO_CART' | translate}}</button>
+                                        ng-disabled="!buyButtonEnabled"
+                                           >{{'ADD_TO_CART' | translate}}</button>
                                 
                                
                                 </div>
 
                                 <!-- shipping rates -->
+<!--
                                  <div class="col-md-8 col-md-offset-2 shipping-rate" ng-if="!noShippingRates">
                             <a id="p_{{product.id}}" ng-click="openPickupStoresDetails(product.id)" ui-sref="base.pickupstores( {productId: product.id, lastCatId: lastCatId} )">PickUp Stores</a>
                                 </div>
+-->
                                 <div class="col-md-8 col-md-offset-2 shipping-rate" ng-if="!noShippingRates">
                                     <a href=""><span ng-click="showShippingRates()">Shipping Rates</span></a>
                                 </div>

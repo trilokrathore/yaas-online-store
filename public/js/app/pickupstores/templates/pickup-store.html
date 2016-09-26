@@ -15,27 +15,41 @@
 
 </style>
 <div class="container-fluid">
-    <div class="raw">
+    <div class="row">
+        <div class="col-sm-2">
+          <h2 id="header">PickupStore</h2>
+        </div>
+        <div class="col-sm-4">
+           
+            <form name="pickupstoreform" ng-submit="submit()">
+                  <input type="text" name="pincode" ng-model="pincode" placeholder="Enter Pincode Or Place : ">
+                  <button type="submit" class="btn btn-default">Search PickStores</button>
+            </form>
+        </div>
         <div class="col-sm-6">
-          <h2 id="header">PickupStore :</h2>
+<!--          <h2 id="header">PickupStore :</h2>-->
         </div>
         
-        <div class="col-sm-6">
-            <h2 id="header">Product :{{product.name}}<</h2>
-        </div>
 
     </div>
-    <div class="raw">
+    <div class="row">
         <div class="col-sm-6">
                      <div class="panel panel-default">
-                         <hr>
-                         {{selectedStore}}
+                         
+                          <!-- add to cart -->
+                        <div ng-if="isStorePresent">
+                                    <button id="buy-button" class="btn btn-primary btn-block buyButton" ng-click="addToCartFromDetailPage()"
+                                        >{{'ADD_TO_CART' | translate}}</button>
+                                
+                         </div>
+                               
                          <!-- List group -->
                          <ul class="list-group" >
                              <li class="list-group-item" ng-repeat="pickstore in pickstores">
                                  <label>
                                       <input type="radio" ng-model="$parent.selectedPickupStore" name="id" value="{{pickstore.id}}" ng-click="getPickStoreID()" />
-                                    {{$index + 1}}.  {{pickstore.id}} ,{{pickstore.name}}
+                                    {{$index + 1}}.  {{pickstore.id}} ,{{pickstore.name}} 
+                                     <span> , {{pickstore.openingschedule}} -- {{pickstore.closingschedule}}</span>
                                  </label>
                                  
                              </li>
@@ -58,37 +72,6 @@
     </div>
 </div>
 
-<!--
-<div class="wrapper">
-     <div class="container-fluid" style="margin-left:10px;">
-         <div class="row" >
-             <div class="page-header">
-                 <h1 id="header">PickupStore ({{pickstores.length}})</h1>
-             </div>
-             <div class="row">
-                 <div class="col-sm-12">
-                     <div class="panel panel-default">
-                          List group 
-                         <ul class="list-group" >
-                             <li class="list-group-item" ng-repeat="pickstore in pickstores">
-                                 <span class="badge">{{pickstore.createdAt | date : "mediumDate"}}</span>
-                                 <h1>{{pickstore}}</h1>
-                                 <h2 class="ng-binding list-group-item-heading">
-                                     {{pickstore.title}}
-                                     <small>(id : {{pickstore.id}})</small>
-                                 </h2>
-                                 <h3>{{pickstore.description}}</h3>
-                                 <small>(Items : {{items.length}})</small>
-                                 <p>Owner : {{pickstore.owner}}</p>
-                             </li>
-                         </ul>
-                     </div>
-                 </div>
-             </div>
-         </div>
-     </div>
- </div>
--->
 
 
 <script src="js/vendor-static/jquery.min.js"></script>

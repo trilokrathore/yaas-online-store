@@ -23,7 +23,7 @@ angular.module('ds.appconfig', [])
 
         dynamicDomain: function(){
             // Dynamic Domain is generated and replaced by build script, see gruntfile.
-            return /*StartDynamicDomain*/ 'api.stage.yaas.io' /*EndDynamicDomain*/;
+            return /*StartDynamicDomain*/ 'api.yaas.io' /*EndDynamicDomain*/;
         },
 
         storeTenant: function(){
@@ -42,7 +42,7 @@ angular.module('ds.appconfig', [])
 
         clientId: function() {
             // Dynamic ClientId is configured and replaced by build script, see gruntfile.
-            return /*StartClientId*/ 'U2E1Yiwrx26ldRlLLERbiMMIE6CXhRTM' /*EndClientId*/;
+            return /*StartClientId*/ 'plZ1dZ3B2tTFeXN1BmO0XCST3smSkrlI' /*EndClientId*/;
         },
 
         redirectURI: function() {

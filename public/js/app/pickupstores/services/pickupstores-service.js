@@ -20,10 +20,17 @@ angular.module('ds.pickupstores')
         var getPickupStoresList = function (parms) {
             return PickupStoreREST.PickupStores.all('pickupstores').getList();
         };
+        
+        var getPickupStoresListByPincode = function (pincode) {
+            return PickupStoreREST.PickupStoresByPincode.all(pincode).getList();
+        };
 
         return {
             queryPickupStoresList: function(parms) {
                return getPickupStoresList(parms);
+            },
+            getPickupStoresListByPincode :function(pincode){
+                return getPickupStoresListByPincode(pincode);
             }
         };
 }]);

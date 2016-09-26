@@ -22,14 +22,16 @@ angular.module('ds.pickupstores')
              $scope.lat='75.0';
              $scope.lng='80.0';
              //Starts code
-            var mapOptions = {
+        var mapOptions = {
                    zoom: 10,
                   center: new google.maps.LatLng($scope.lat, $scope.lng),
                   mapTypeId: google.maps.MapTypeId.TERRAIN
                             };
             console.info(document.getElementById('map'));
             var map = new google.maps.Map(document.getElementById('map'), mapOptions);  
-            var infoWindow = new google.maps.InfoWindow({map: map});
+            var infoWindow = new google.maps.InfoWindow({content: "",
+				disableAutoPan: false,
+				maxWidth:200});
          
         if (navigator.geolocation) {
               console.info("Just to test");
@@ -41,9 +43,6 @@ angular.module('ds.pickupstores')
             
             $scope.lat=pos.lat;
             $scope.lng=pos.lng;     
-            infoWindow.setPosition(pos);
-            infoWindow.setContent('Your Location ::'+$scope.pickstores[0].id);
-            console.info("Just to test||||||||||");
             map.setCenter(pos);
           }, function() {
             handleLocationError(true, infoWindow);
@@ -53,7 +52,7 @@ angular.module('ds.pickupstores')
           handleLocationError(false, infoWindow);
         }
         
-            function handleLocationError(isError, infoWindow){
+        function handleLocationError(isError, infoWindow){
                 if(isError){
                      infoWindow.setContent('We could not get your current location. Try again');
                 }else{
@@ -67,7 +66,65 @@ angular.module('ds.pickupstores')
             console.log(response);
             $scope.pickstores = Restangular.stripRestangular(response);
                 console.info($scope.pickstores);
-               
+               $scope.isStorePresent=$scope.pickstores.lenth>0?true:false;
+               var locationsArr=$scope.pickstores;
+               $scope.markers = new Array();
+               //To create bounds.
+		       var bounds = new google.maps.LatLngBounds();
+               for (var i=0; i<locationsArr.length; i++){
+                   console.info(locationsArr[i].id);
+                   var marker="";
+                   //Add markers
+                   if(locationsArr[i].latitude){
+                       console.info('Inside');
+                      marker=new google.maps.Marker({
+	 		             position: new google.maps.LatLng(locationsArr[i].latitude,locationsArr[i].longitude),
+                         label: ++i+""
+		                 });
+                     $scope.markers.push(marker);
+                     
+                    //Added bounds.
+			         bounds.extend(marker.position);
+                   }
+                   
+                  marker.setMap(map);
+                 }
+           // map.fitBounds(bounds);
+             
+            });
+            
+            console.info('Finish getting all store inforamtion');
+            var modalInstance;
+            
+            $scope.showMapWithMarkers= function(pickstores){
+           
+            }
+            
+            
+            $scope.getPickStoreID= function(){
+                $scope.selectedStore=$scope.selectedPickupStore;
+            }
+            
+            
+            //Pincode serch start here
+              
+            $scope.submit = function() {
+                 
+                console.info("Submit form ");
+                var pincode=$scope.pincode;
+                PickupStoresSvc.getPickupStoresListByPincode(pincode).then(function (response) { 
+                 console.log(response);
+                
+                //map = new google.maps.Map(document.getElementById('map'), mapOptions);
+                for (var i=0; i<$scope.markers.length; i++){
+                    $scope.markers[i].setMap(null);
+                }
+                
+                $scope.pickstores = Restangular.stripRestangular(response);
+                $scope.isStorePresent=$scope.pickstores.lenth>0?true:false;
+                console.info($scope.isStorePresent);
+                console.info($scope.pickstores);
+                
                var locationsArr=$scope.pickstores;
                var markers = new Array();
                //To create bounds.
@@ -89,23 +146,26 @@ angular.module('ds.pickupstores')
                    }
                    
                   marker.setMap(map);
-                 }
-            map.fitBounds(bounds);
-             
-            });
-            
-            console.info('Finish getting all store inforamtion');
-            var modalInstance;
-            
-            $scope.showMapWithMarkers= function(pickstores){
-           
+                 }    
+                    
+                    
+                } );
+//                var lat=0;
+//                var lng=0;
+//                var geocoder = new google.maps.Geocoder();
+//                geocoder.geocode({ 'address': $scope.pincode + ' India' }, function(results, status) {
+//				    if (status == google.maps.GeocoderStatus.OK) {
+//                        console.info(results);
+//				    	var searchLocation = results[0].geometry.location;
+//				    	lat=searchLocation.lat();
+//				    	lng=searchLocation.lng();
+//                        console.info("Pincode "+lat);
+//				    }
+//				        }); 
+
             }
             
-            
-            $scope.getPickStoreID= function(){
-                
-                $scope.selectedStore=$scope.selectedPickupStore;
-            }
+            //End Here
         
             
             //My Code ende here

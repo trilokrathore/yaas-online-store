@@ -6,6 +6,9 @@ angular.module('ds.pickupstores')
            /** Endpoint for wishlist.*/
            PickupStores: Restangular.withConfig(function (RestangularConfigurer) {
                RestangularConfigurer.setBaseUrl(siteConfig.apis.pickupstores.baseUrl);
+           }),
+           PickupStoresByPincode: Restangular.withConfig(function (RestangularConfigurer) {
+        RestangularConfigurer.setBaseUrl(siteConfig.apis.pickupstores.baseUrl+'/pickupstores/pincode/');
            })
        };
 
