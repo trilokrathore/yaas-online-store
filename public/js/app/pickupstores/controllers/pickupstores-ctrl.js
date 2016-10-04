@@ -65,8 +65,9 @@ angular.module('ds.pickupstores')
         PickupStoresSvc.queryPickupStoresList('test').then(function (response) { 
             console.log(response);
             $scope.pickstores = Restangular.stripRestangular(response);
-                console.info($scope.pickstores);
+               
                $scope.isStorePresent=$scope.pickstores.lenth>0?true:false;
+           // console.info($scope.isStorePresent);
                var locationsArr=$scope.pickstores;
                $scope.markers = new Array();
                //To create bounds.
@@ -120,6 +121,7 @@ angular.module('ds.pickupstores')
                     $scope.markers[i].setMap(null);
                 }
                 
+                console.info("TEST********");
                 $scope.pickstores = Restangular.stripRestangular(response);
                 $scope.isStorePresent=$scope.pickstores.lenth>0?true:false;
                 console.info($scope.isStorePresent);
